@@ -1,0 +1,29 @@
+{
+  "name": "0g-orbit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "compile:contracts": "solcjs --bin contracts/OrbitWallet.sol contracts/OrbitFactory.sol --include-path contracts --base-path . --output-dir artifacts-solc",
+    "wallet:create": "node scripts/create-test-wallet.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@next/env": "latest",
+    "ethers": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "solc": "^0.8.35",
+    "typescript": "latest"
+  }
+}
