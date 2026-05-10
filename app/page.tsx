@@ -25,6 +25,7 @@ import { useMemo, useState } from "react";
 import {
   demoOperations,
   formatAddress,
+  formatReceiptTime,
   initialReceipts,
   policySnapshot,
   walletProfile,
@@ -202,7 +203,7 @@ export default function Home() {
                     {statusIcon[receipt.status]}
                     {receipt.status}
                   </span>
-                  <time>{new Date(receipt.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time>
+                  <time>{formatReceiptTime(receipt.timestamp)}</time>
                 </div>
                 <h3>{receipt.title}</h3>
                 <p>{receipt.reason}</p>

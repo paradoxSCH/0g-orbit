@@ -99,9 +99,17 @@ export const initialReceipts: DemoReceipt[] = [
     reason: "Initial policy bundle prepared for 0G Storage upload.",
     receiptRoot: "0x736565642d706f6c6963792d726563656970742d30672d6f726269740000",
     policyHash: policySnapshot.policyHash,
-    timestamp: new Date(Date.now() - 1000 * 60 * 12).toISOString()
+    timestamp: "2026-05-10T15:29:00.000Z"
   }
 ];
+
+export function formatReceiptTime(timestamp: string) {
+  const date = new Date(timestamp);
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+
+  return `${hours}:${minutes} UTC`;
+}
 
 export function formatAddress(value: string, visible = 6) {
   if (value.length <= visible * 2 + 2) {
