@@ -1,0 +1,43 @@
+{
+  "schema": "0g-orbit.receipt-bundle.v1",
+  "project": "0G Orbit",
+  "persona": "DAO ops lead",
+  "operation": {
+    "title": "Pay approved operator through bounded Orbit wallet",
+    "status": "executed",
+    "valueA0GI": "0.001",
+    "recipient": "0x9e6912987f71970D96AB7a16151962D9502833dA",
+    "receiptRoot": "0x6501319d6ab8fdc2c25e7ef73bd6450e8b94ab2c9d59ecc4482f494cc0c3c89a",
+    "txHash": "0x09bfe02e652d734ea465e99ea0e98f65b7b9ffcac1264d6eb0872980b2199190"
+  },
+  "policySnapshot": {
+    "orbitWallet": "0xE63503a61fafF1E0b57019849924818fA62Efa36",
+    "authorizedAgent": "0x9e6912987f71970D96AB7a16151962D9502833dA",
+    "perTxCapA0GI": "0.05",
+    "dailyCapA0GI": "0.15",
+    "cooldownSeconds": 600,
+    "allowedRecipients": [
+      "0x9e6912987f71970D96AB7a16151962D9502833dA"
+    ],
+    "rejectedSampleReason": "RECIPIENT_NOT_ALLOWED"
+  },
+  "agentReasoning": [
+    "Invoice and recipient were matched against the owner-approved allowlist.",
+    "Requested value was below the per-transaction and daily policy caps.",
+    "The operation emitted a receipt root and can be replayed against the policy snapshot."
+  ],
+  "chainEvidence": {
+    "network": "0G Galileo Testnet",
+    "chainId": "16602",
+    "factoryAddress": "0xDa6B1c6b391E7Aa1EAF8124Ce36523B274dac422",
+    "orbitWalletAddress": "0xE63503a61fafF1E0b57019849924818fA62Efa36",
+    "transactions": {
+      "factoryDeployment": "0x71e8b2c23ecf78ef74bfe431653fcb5adf04955119172914b7754f50161d180c",
+      "createOrbit": "0x68b271768dd5359da52a03d78464732d555474dcf0b3bf5b50758301a581c664",
+      "setRecipient": "0x93f56c8756f4323ccbe56b76c661ab3d49f153c053622e8254a4a631e07c87ee",
+      "setSelector": "0xc9e58aeb4f0ac8336a3caacd495c7bb1671bdbbae7595bede196a8cf81fa29e1",
+      "executeAllowedOperation": "0x09bfe02e652d734ea465e99ea0e98f65b7b9ffcac1264d6eb0872980b2199190"
+    }
+  },
+  "generatedAt": "2026-05-11T05:40:21.498Z"
+}

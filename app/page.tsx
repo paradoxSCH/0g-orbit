@@ -25,11 +25,13 @@ import {
 import { useMemo, useState } from "react";
 import {
   chainDeployment,
+  computeEvidence,
   demoOperations,
   formatAddress,
   formatReceiptTime,
   initialReceipts,
   policySnapshot,
+  storageEvidence,
   walletProfile,
   type DemoOperation,
   type ReceiptStatus
@@ -221,12 +223,23 @@ export default function Home() {
 
         <Panel className="proof-panel" eyebrow="Galileo proof" title="Live Deployment">
           <div className="proof-grid">
-            <ProofItem label="Chain" value={`${chainDeployment.network} / ${chainDeployment.chainId}`} />
-            <ProofItem label="Factory" value={formatAddress(chainDeployment.factoryAddress, 8)} />
-            <ProofItem label="Orbit Wallet" value={formatAddress(chainDeployment.orbitWalletAddress, 8)} />
-            <ProofItem label="Allowed Tx" value={formatAddress(chainDeployment.executeTxHash, 10)} />
+            <ProofItem label="Chain" value={`${chainDeployment.network} / ${chainDeployment.chainId}`} href={chainDeployment.explorerUrl} />
+            <ProofItem label="Factory" value={formatAddress(chainDeployment.factoryAddress, 8)} href={chainDeployment.links.factory} />
+            <ProofItem label="Orbit Wallet" value={formatAddress(chainDeployment.orbitWalletAddress, 8)} href={chainDeployment.links.orbitWallet} />
+            <ProofItem label="Allowed Tx" value={formatAddress(chainDeployment.executeTxHash, 10)} href={chainDeployment.links.executeTx} />
             <ProofItem label="Rejected Sample" value={chainDeployment.rejectedReason} />
-            <ProofItem label="Faucet Tx" value={formatAddress(chainDeployment.faucetTxHash ?? "", 10)} />
+            <ProofItem label="Faucet Tx" value={formatAddress(chainDeployment.faucetTxHash ?? "", 10)} href={chainDeployment.links.faucetTx} />
+          </div>
+        </Panel>
+
+        <Panel className="evidence-panel" eyebrow="0G Storage + Compute" title="Receipt Evidence">
+          <div className="evidence-grid">
+            <EvidenceItem label="Storage" value={`${storageEvidence.status} / ${storageEvidence.mode}`} />
+            <EvidenceItem label="Storage Root" value={formatAddress(storageEvidence.rootHash, 10)} />
+            <EvidenceItem label="Storage Tx" value={formatAddress(storageEvidence.txHash ?? "", 10)} href={chainDeployment.links.storageTx} />
+            <EvidenceItem label="Compute Providers" value={`${computeEvidence.providerCount} discovered`} />
+            <EvidenceItem label="Risk Verdict" value={`${computeEvidence.verdict} / score ${computeEvidence.riskScore}`} />
+            <EvidenceItem label="Attestation Root" value={formatAddress(computeEvidence.attestationRoot, 10)} />
           </div>
         </Panel>
 
@@ -265,13 +278,37 @@ function PolicyItem({ icon, label, value }: { icon: React.ReactNode; label: stri
   );
 }
 
-function ProofItem({ label, value }: { label: string; value: string }) {
+function ProofItem({ label, value, href }: { label: string; value: string; href?: string }) {
   return (
     <div className="proof-item">
       <dt>{label}</dt>
       <dd>
-        <ExternalLink size={14} />
-        <span>{value}</span>
+        {href ? (
+          <a href={href} target="_blank" rel="noreferrer" title={`Open ${label} proof`}>
+            <ExternalLink size={14} />
+            <span>{value}</span>
+          </a>
+        ) : (
+          <span>{value}</span>
+        )}
+      </dd>
+    </div>
+  );
+}
+
+function EvidenceItem({ label, value, href }: { label: string; value: string; href?: string }) {
+  return (
+    <div className="evidence-item">
+      <dt>{label}</dt>
+      <dd>
+        {href ? (
+          <a href={href} target="_blank" rel="noreferrer" title={`Open ${label} proof`}>
+            <ExternalLink size={14} />
+            <span>{value}</span>
+          </a>
+        ) : (
+          <span>{value}</span>
+        )}
       </dd>
     </div>
   );

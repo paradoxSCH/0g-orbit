@@ -144,6 +144,7 @@ dt {
 .operation-panel,
 .receipt-panel,
 .proof-panel,
+.evidence-panel,
 .integration-panel {
   min-height: 320px;
 }
@@ -163,6 +164,7 @@ dt {
 .policy-item,
 .operation-detail,
 .proof-item,
+.evidence-item,
 .integration-item {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -379,11 +381,19 @@ dt {
   gap: 10px;
 }
 
-.proof-item dt {
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.proof-item dt,
+.evidence-item dt {
   margin-bottom: 8px;
 }
 
-.proof-item dd {
+.proof-item dd,
+.evidence-item dd {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -392,7 +402,22 @@ dt {
   font-weight: 700;
 }
 
-.proof-item svg {
+.proof-item a,
+.evidence-item a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.proof-item a:hover,
+.evidence-item a:hover {
+  color: var(--blue);
+}
+
+.proof-item svg,
+.evidence-item svg {
   flex: 0 0 auto;
   color: var(--blue);
 }
@@ -478,6 +503,7 @@ code {
   .wallet-summary,
   .detail-grid,
   .receipt-list,
+  .evidence-grid,
   .integration-grid {
     grid-template-columns: 1fr;
   }

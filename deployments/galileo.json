@@ -3,6 +3,7 @@
   "network": "0G Galileo Testnet",
   "chainId": "16602",
   "rpcUrl": "https://evmrpc-testnet.0g.ai",
+  "explorerUrl": "https://chainscan-galileo.0g.ai",
   "faucetTxHash": "0x360bbd258e3e612fe423bf363abb94c96903c76a5932837c6bc11e7524214209",
   "deployer": "0x9e6912987f71970D96AB7a16151962D9502833dA",
   "agent": "0x9e6912987f71970D96AB7a16151962D9502833dA",

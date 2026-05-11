@@ -8,6 +8,7 @@ const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
 const rpcUrl = process.env.ORBIT_GALILEO_RPC_URL || "https://evmrpc-testnet.0g.ai";
+const explorerUrl = process.env.ORBIT_EXPLORER_URL || "https://chainscan-galileo.0g.ai";
 const expectedChainId = BigInt(process.env.NEXT_PUBLIC_0G_CHAIN_ID || "16602");
 const privateKey = process.env.ORBIT_DEPLOYER_PRIVATE_KEY;
 
@@ -111,6 +112,7 @@ const deployment = {
   network: process.env.NEXT_PUBLIC_0G_NETWORK_NAME || "0G Galileo Testnet",
   chainId: network.chainId.toString(),
   rpcUrl,
+  explorerUrl,
   faucetTxHash,
   deployer: deployer.address,
   agent: agentAddress,

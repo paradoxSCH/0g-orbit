@@ -9,10 +9,14 @@
     "start": "next start",
     "compile:contracts": "solcjs --bin --abi contracts/OrbitWallet.sol contracts/OrbitFactory.sol --include-path contracts --base-path . --output-dir artifacts-solc",
     "deploy:galileo": "node scripts/deploy-galileo.mjs",
+    "storage:upload-receipt": "node scripts/upload-receipt-storage.mjs",
+    "compute:attest-risk": "node scripts/attest-risk-compute.mjs",
     "wallet:create": "node scripts/create-test-wallet.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@0gfoundation/0g-compute-ts-sdk": "^0.8.3",
+    "@0gfoundation/0g-storage-ts-sdk": "^1.2.9",
     "@next/env": "latest",
     "ethers": "latest",
     "lucide-react": "latest",

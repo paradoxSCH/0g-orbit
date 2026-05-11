@@ -33,10 +33,21 @@ Autonomous agents should not hold private keys. They should hold limited, revoca
 ## Galileo Deployment
 
 - Network: 0G Galileo Testnet, chain ID `16602`.
+- Explorer: `https://chainscan-galileo.0g.ai`.
 - OrbitFactory: `0xDa6B1c6b391E7Aa1EAF8124Ce36523B274dac422`.
 - OrbitWallet: `0xE63503a61fafF1E0b57019849924818fA62Efa36`.
 - Allowed execution tx: `0x09bfe02e652d734ea465e99ea0e98f65b7b9ffcac1264d6eb0872980b2199190`.
 - Deployment record: [deployments/galileo.json](deployments/galileo.json).
+
+## 0G Storage And Compute Evidence
+
+- Receipt bundle: [data/receipt-bundles/galileo-operation.json](data/receipt-bundles/galileo-operation.json).
+- 0G Storage root: `0xa421435a8ea2bc5255fada6fba4e4a8b0d66f7a76bb5aa810432e51ad15151a1`.
+- 0G Storage tx: `0xaf82f6add8fb89c82036399781485319e572fda7a7a201edf9a27ca7ed3ceac8`.
+- Storage status: [integrations/storage-status.json](integrations/storage-status.json).
+- 0G Compute provider discovery: 6 providers discovered through the Compute SDK.
+- Risk attestation root: `0xf0d39b1f4c4c9ac78f8f4f90def666096ec0fcfd777b61e2153cd788e8d0c237`.
+- Compute attestation: [integrations/compute-attestation.json](integrations/compute-attestation.json).
 
 ## Key Docs
 
@@ -60,6 +71,8 @@ npm run typecheck
 npm run build
 npm run compile:contracts
 npm run deploy:galileo -- --faucet-tx=<FAUCET_TX_HASH>
+npm run storage:upload-receipt
+npm run compute:attest-risk
 ```
 
 Create a local Galileo test wallet:

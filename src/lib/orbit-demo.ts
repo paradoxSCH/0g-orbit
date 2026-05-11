@@ -1,4 +1,6 @@
 import deployment from "../../deployments/galileo.json";
+import computeAttestation from "../../integrations/compute-attestation.json";
+import storageStatus from "../../integrations/storage-status.json";
 
 export type OperationStatus = "allowed" | "rejected";
 export type ReceiptStatus = "executed" | "rejected" | "simulated";
@@ -119,11 +121,38 @@ export const initialReceipts: DemoReceipt[] = [
 export const chainDeployment = {
   network: deployment.network,
   chainId: deployment.chainId,
+  explorerUrl: deployment.explorerUrl,
   factoryAddress: deployment.factoryAddress,
   orbitWalletAddress: deployment.orbitWalletAddress,
   executeTxHash: deployment.transactions.executeAllowedOperation,
   rejectedReason: deployment.demoRejectedReason,
-  faucetTxHash: deployment.faucetTxHash
+  faucetTxHash: deployment.faucetTxHash,
+  links: {
+    factory: `${deployment.explorerUrl}/address/${deployment.factoryAddress}`,
+    orbitWallet: `${deployment.explorerUrl}/address/${deployment.orbitWalletAddress}`,
+    executeTx: `${deployment.explorerUrl}/tx/${deployment.transactions.executeAllowedOperation}`,
+    faucetTx: `${deployment.explorerUrl}/tx/${deployment.faucetTxHash}`,
+    storageTx: `${deployment.explorerUrl}/tx/${storageStatus.uploadResult?.txHash ?? ""}`
+  }
+};
+
+export const storageEvidence = {
+  status: storageStatus.status,
+  mode: storageStatus.mode,
+  rootHash: storageStatus.uploadResult?.rootHash ?? storageStatus.localRootHash,
+  txHash: storageStatus.uploadResult?.txHash,
+  txSeq: storageStatus.uploadResult?.txSeq,
+  bundlePath: storageStatus.bundlePath
+};
+
+export const computeEvidence = {
+  status: computeAttestation.computeDiscovery.status,
+  mode: computeAttestation.computeDiscovery.mode,
+  providerCount: computeAttestation.computeDiscovery.providerCount ?? 0,
+  verdict: computeAttestation.result.verdict,
+  riskScore: computeAttestation.result.riskScore,
+  attestationRoot: computeAttestation.attestationRoot,
+  model: computeAttestation.computeDiscovery.providers?.[0]?.model ?? "mock fallback"
 };
 
 export function formatReceiptTime(timestamp: string) {
