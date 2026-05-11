@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "compile:contracts": "solcjs --bin contracts/OrbitWallet.sol contracts/OrbitFactory.sol --include-path contracts --base-path . --output-dir artifacts-solc",
+    "compile:contracts": "solcjs --bin --abi contracts/OrbitWallet.sol contracts/OrbitFactory.sol --include-path contracts --base-path . --output-dir artifacts-solc",
+    "deploy:galileo": "node scripts/deploy-galileo.mjs",
     "wallet:create": "node scripts/create-test-wallet.mjs",
     "typecheck": "tsc --noEmit"
   },

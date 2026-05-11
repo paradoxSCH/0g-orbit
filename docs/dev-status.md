@@ -24,6 +24,9 @@ Completed:
 - TypeScript check passed.
 - Next.js production build passed.
 - Contract compile passed.
+- Galileo deployment completed.
+- Orbit wallet created and funded on Galileo.
+- One allowed operation executed on Galileo.
 - Browser smoke test at `http://localhost:3000` passed with receipt execution.
 
 ## GitHub Repository
@@ -42,12 +45,23 @@ Galileo test wallet address:
 
 The private key is stored in local `.env.local`, which is gitignored. This wallet should only be used for testnet/demo purposes.
 
+## Galileo Deployment
+
+Deployment record: [../deployments/galileo.json](../deployments/galileo.json)
+
+- Faucet tx: `0x360bbd258e3e612fe423bf363abb94c96903c76a5932837c6bc11e7524214209`.
+- OrbitFactory: `0xDa6B1c6b391E7Aa1EAF8124Ce36523B274dac422`.
+- OrbitWallet: `0xE63503a61fafF1E0b57019849924818fA62Efa36`.
+- Allowed execution tx: `0x09bfe02e652d734ea465e99ea0e98f65b7b9ffcac1264d6eb0872980b2199190`.
+- Rejected sample reason: `RECIPIENT_NOT_ALLOWED`.
+
 ## Verified Commands
 
 ```bash
 npm run typecheck
 npm run build
 npm run compile:contracts
+npm run deploy:galileo -- --faucet-tx=0x360bbd258e3e612fe423bf363abb94c96903c76a5932837c6bc11e7524214209
 ```
 
 All commands passed.
@@ -59,12 +73,11 @@ All commands passed.
 - Keep `solcjs` compile path or add Foundry/Hardhat tests.
 - Add tests for allowed and rejected operations.
 
-### Phase 2: Galileo Testnet Deployment
+### Phase 2: Explorer and Contract Evidence
 
-- Fund the test wallet with Galileo testnet tokens.
-- Deploy `OrbitFactory` and create one `OrbitWallet`.
-- Run policy update and execution transactions.
-- Save contract addresses and explorer links.
+- Add Galileo explorer links if an explorer URL is available.
+- Consider verifying source code if the explorer supports verification.
+- Add a short contract walkthrough to the demo script.
 
 ### Phase 3: 0G Storage Integration
 

@@ -1,3 +1,5 @@
+import deployment from "../../deployments/galileo.json";
+
 export type OperationStatus = "allowed" | "rejected";
 export type ReceiptStatus = "executed" | "rejected" | "simulated";
 export type RiskLevel = "low" | "medium" | "high";
@@ -27,15 +29,15 @@ export type DemoReceipt = {
 
 export const walletProfile = {
   name: "DAO Ops Orbit",
-  balance: 200,
-  owner: "0xA17e00000000000000000000000000000000DA0",
+  balance: 0.019,
+  owner: deployment.deployer,
   agentName: "Ops Agent #042",
-  agentAddress: "0x0A6e0000000000000000000000000000000A6e42"
+  agentAddress: deployment.agent
 };
 
 export const policySnapshot = {
-  perTxCap: 50,
-  dailyCap: 150,
+  perTxCap: 0.05,
+  dailyCap: 0.15,
   cooldownMinutes: 10,
   allowedRecipients: ["Alice Designer", "Research API"],
   allowedSelectors: ["transfer(address,uint256)", "renewSubscription(uint256)"],
@@ -47,7 +49,7 @@ export const demoOperations: DemoOperation[] = [
     id: "pay-alice",
     title: "Pay Alice Designer",
     recipient: "Alice Designer",
-    amount: 25,
+    amount: 0.025,
     expectedStatus: "allowed",
     riskLevel: "low",
     reason: "Recipient is allowlisted and amount is under the per-transaction cap.",
@@ -58,7 +60,7 @@ export const demoOperations: DemoOperation[] = [
     id: "renew-api",
     title: "Renew Research API",
     recipient: "Research API",
-    amount: 10,
+    amount: 0.01,
     expectedStatus: "allowed",
     riskLevel: "low",
     reason: "Service contract and renewal selector are allowlisted.",
@@ -69,7 +71,7 @@ export const demoOperations: DemoOperation[] = [
     id: "unknown-vendor",
     title: "Pay Unknown Vendor",
     recipient: "Unknown Vendor",
-    amount: 20,
+    amount: 0.02,
     expectedStatus: "rejected",
     riskLevel: "medium",
     reason: "Recipient is not in the owner-approved allowlist.",
@@ -80,7 +82,7 @@ export const demoOperations: DemoOperation[] = [
     id: "over-cap",
     title: "Large Contributor Payout",
     recipient: "Alice Designer",
-    amount: 75,
+    amount: 0.075,
     expectedStatus: "rejected",
     riskLevel: "high",
     reason: "Amount exceeds the 50 A0GI per-transaction cap.",
@@ -90,6 +92,17 @@ export const demoOperations: DemoOperation[] = [
 ];
 
 export const initialReceipts: DemoReceipt[] = [
+  {
+    id: "galileo-1",
+    title: "Galileo Operation Executed",
+    status: "executed",
+    amount: Number(deployment.demoExecuteValueA0GI),
+    recipient: "Deployer Wallet",
+    reason: "Allowed recipient and transfer value stayed inside the deployed Orbit policy.",
+    receiptRoot: deployment.demoReceiptRoot,
+    policyHash: policySnapshot.policyHash,
+    timestamp: deployment.deployedAt
+  },
   {
     id: "seed-1",
     title: "Policy Snapshot Anchored",
@@ -102,6 +115,16 @@ export const initialReceipts: DemoReceipt[] = [
     timestamp: "2026-05-10T15:29:00.000Z"
   }
 ];
+
+export const chainDeployment = {
+  network: deployment.network,
+  chainId: deployment.chainId,
+  factoryAddress: deployment.factoryAddress,
+  orbitWalletAddress: deployment.orbitWalletAddress,
+  executeTxHash: deployment.transactions.executeAllowedOperation,
+  rejectedReason: deployment.demoRejectedReason,
+  faucetTxHash: deployment.faucetTxHash
+};
 
 export function formatReceiptTime(timestamp: string) {
   const date = new Date(timestamp);

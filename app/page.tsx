@@ -10,6 +10,7 @@ import {
   CircleDollarSign,
   ClipboardCheck,
   Database,
+  ExternalLink,
   FileText,
   KeyRound,
   Orbit,
@@ -23,6 +24,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
+  chainDeployment,
   demoOperations,
   formatAddress,
   formatReceiptTime,
@@ -217,6 +219,17 @@ export default function Home() {
           </div>
         </Panel>
 
+        <Panel className="proof-panel" eyebrow="Galileo proof" title="Live Deployment">
+          <div className="proof-grid">
+            <ProofItem label="Chain" value={`${chainDeployment.network} / ${chainDeployment.chainId}`} />
+            <ProofItem label="Factory" value={formatAddress(chainDeployment.factoryAddress, 8)} />
+            <ProofItem label="Orbit Wallet" value={formatAddress(chainDeployment.orbitWalletAddress, 8)} />
+            <ProofItem label="Allowed Tx" value={formatAddress(chainDeployment.executeTxHash, 10)} />
+            <ProofItem label="Rejected Sample" value={chainDeployment.rejectedReason} />
+            <ProofItem label="Faucet Tx" value={formatAddress(chainDeployment.faucetTxHash ?? "", 10)} />
+          </div>
+        </Panel>
+
         <Panel className="integration-panel" eyebrow="0G integration map" title="From Mock to Testnet">
           <div className="integration-grid">
             <IntegrationItem icon={<ShieldCheck size={18} />} title="0G Chain" text="OrbitWallet, policy updates, execution events, receipt roots." />
@@ -248,6 +261,18 @@ function PolicyItem({ icon, label, value }: { icon: React.ReactNode; label: stri
       <span>{icon}</span>
       <p>{label}</p>
       <strong>{value}</strong>
+    </div>
+  );
+}
+
+function ProofItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="proof-item">
+      <dt>{label}</dt>
+      <dd>
+        <ExternalLink size={14} />
+        <span>{value}</span>
+      </dd>
     </div>
   );
 }

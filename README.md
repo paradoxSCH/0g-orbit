@@ -30,6 +30,14 @@ Autonomous agents should not hold private keys. They should hold limited, revoca
 - Agent ID: authorized agent identity controlling bounded execution.
 - Privacy / Secure Execution: optional stretch goal for private task inputs, private budgets, and sensitive policy checks.
 
+## Galileo Deployment
+
+- Network: 0G Galileo Testnet, chain ID `16602`.
+- OrbitFactory: `0xDa6B1c6b391E7Aa1EAF8124Ce36523B274dac422`.
+- OrbitWallet: `0xE63503a61fafF1E0b57019849924818fA62Efa36`.
+- Allowed execution tx: `0x09bfe02e652d734ea465e99ea0e98f65b7b9ffcac1264d6eb0872980b2199190`.
+- Deployment record: [deployments/galileo.json](deployments/galileo.json).
+
 ## Key Docs
 
 - [Product Plan](docs/product-plan.md)
@@ -51,6 +59,7 @@ npm run dev
 npm run typecheck
 npm run build
 npm run compile:contracts
+npm run deploy:galileo -- --faucet-tx=<FAUCET_TX_HASH>
 ```
 
 Create a local Galileo test wallet:

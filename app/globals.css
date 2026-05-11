@@ -143,6 +143,7 @@ dt {
 .wallet-panel,
 .operation-panel,
 .receipt-panel,
+.proof-panel,
 .integration-panel {
   min-height: 320px;
 }
@@ -161,6 +162,7 @@ dt {
 .wallet-summary > div,
 .policy-item,
 .operation-detail,
+.proof-item,
 .integration-item {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -370,6 +372,29 @@ dt {
   max-height: 430px;
   overflow: auto;
   padding-right: 4px;
+}
+
+.proof-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.proof-item dt {
+  margin-bottom: 8px;
+}
+
+.proof-item dd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-weight: 700;
+}
+
+.proof-item svg {
+  flex: 0 0 auto;
+  color: var(--blue);
 }
 
 .receipt-card {
