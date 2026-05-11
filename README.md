@@ -61,6 +61,7 @@ Autonomous agents should not hold private keys. They should hold limited, revoca
 - [Architecture](docs/architecture.md)
 - [Naming](docs/naming.md)
 - [Development Status](docs/dev-status.md)
+- [Demo Video Script](docs/demo-video-script.md)
 
 ## Development Commands
 
