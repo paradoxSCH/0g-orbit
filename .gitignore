@@ -12,3 +12,6 @@ artifacts/
 artifacts-solc/
 typechain-types/
 docs/
+data/
+deployments/
+integrations/

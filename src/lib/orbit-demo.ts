@@ -1,6 +1,46 @@
-import deployment from "../../deployments/galileo.json";
-import computeAttestation from "../../integrations/compute-attestation.json";
-import storageStatus from "../../integrations/storage-status.json";
+const deployment = {
+  network: "0G Galileo Testnet",
+  chainId: "16602",
+  explorerUrl: "https://chainscan-galileo.0g.ai",
+  faucetTxHash: "0x360bbd258e3e612fe423bf363abb94c96903c76a5932837c6bc11e7524214209",
+  deployer: "0x9e6912987f71970D96AB7a16151962D9502833dA",
+  agent: "0x9e6912987f71970D96AB7a16151962D9502833dA",
+  factoryAddress: "0xDa6B1c6b391E7Aa1EAF8124Ce36523B274dac422",
+  orbitWalletAddress: "0xE63503a61fafF1E0b57019849924818fA62Efa36",
+  demoExecuteValueA0GI: "0.001",
+  demoReceiptRoot: "0x6501319d6ab8fdc2c25e7ef73bd6450e8b94ab2c9d59ecc4482f494cc0c3c89a",
+  demoRejectedReason: "RECIPIENT_NOT_ALLOWED",
+  deployedAt: "2026-05-11T05:16:05.789Z",
+  transactions: {
+    executeAllowedOperation: "0x09bfe02e652d734ea465e99ea0e98f65b7b9ffcac1264d6eb0872980b2199190"
+  }
+};
+
+const storageStatus = {
+  status: "uploaded",
+  mode: "0g-storage",
+  localRootHash: "0xa421435a8ea2bc5255fada6fba4e4a8b0d66f7a76bb5aa810432e51ad15151a1",
+  uploadResult: {
+    txHash: "0xaf82f6add8fb89c82036399781485319e572fda7a7a201edf9a27ca7ed3ceac8",
+    rootHash: "0xa421435a8ea2bc5255fada6fba4e4a8b0d66f7a76bb5aa810432e51ad15151a1",
+    txSeq: 104885
+  },
+  bundlePath: "data/receipt-bundles/galileo-operation.json"
+};
+
+const computeAttestation = {
+  computeDiscovery: {
+    status: "providers-discovered",
+    mode: "0g-compute-readonly",
+    providerCount: 6,
+    providers: [{ model: "qwen/qwen-2.5-7b-instruct" }]
+  },
+  result: {
+    verdict: "approve",
+    riskScore: 8
+  },
+  attestationRoot: "0xf0d39b1f4c4c9ac78f8f4f90def666096ec0fcfd777b61e2153cd788e8d0c237"
+};
 
 export type OperationStatus = "allowed" | "rejected";
 export type ReceiptStatus = "executed" | "rejected" | "simulated";
