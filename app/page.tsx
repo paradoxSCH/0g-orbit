@@ -81,6 +81,8 @@ const storyPoints = [
   }
 ];
 
+const heroIntent = ["Policy envelope first", "Self-custodial by default", "Proof visible across 0G"];
+
 const storyActs = [
   {
     step: "Act I",
@@ -160,31 +162,51 @@ export default function Home() {
 
       <section className="hero-grid" aria-label="Product introduction">
         <div className="hero-copy">
-          <span className="hero-kicker">Track 3 / Operational tooling for the agentic economy</span>
-          <h1>
-            Let AI agents operate.
-            <span>Keep the wallet in orbit.</span>
-          </h1>
-          <p>
-            0G Orbit gives DAOs a self-custodial operational wallet for autonomous agents. Agents can pay, renew, and execute inside owner-defined policy
-            bounds, while every action stays provable across 0G Chain, Storage, and Compute.
-          </p>
+          <div className="hero-copy-shell">
+            <div className="hero-ambient" aria-hidden="true">
+              <span className="ambient-ring ambient-ring-one" />
+              <span className="ambient-ring ambient-ring-two" />
+              <span className="ambient-beam" />
+              <span className="ambient-dot ambient-dot-one" />
+              <span className="ambient-dot ambient-dot-two" />
+            </div>
 
-          <div className="hero-actions">
-            <a className="primary-button" href="#operations">
-              <ArrowRight size={17} />
-              Explore live flow
-            </a>
-            <a className="ghost-button" href={chainDeployment.links.executeTx} target="_blank" rel="noreferrer">
-              <ExternalLink size={17} />
-              Open Galileo proof
-            </a>
-          </div>
+            <div className="hero-copy-body">
+              <span className="hero-kicker">Track 3 / Operational tooling for the agentic economy</span>
+              <h1>
+                Let AI agents operate.
+                <span>Keep the wallet in orbit.</span>
+              </h1>
+              <p>
+                0G Orbit gives DAOs a self-custodial operational wallet for autonomous agents. Agents can pay, renew, and execute inside owner-defined
+                policy bounds, while every action stays provable across 0G Chain, Storage, and Compute.
+              </p>
 
-          <div className="hero-signals" role="list" aria-label="Judge proof signals">
-            {judgeSignals.map((signal) => (
-              <HeroSignal key={signal.label} {...signal} />
-            ))}
+              <div className="hero-intent-strip" aria-label="Product positioning">
+                {heroIntent.map((item) => (
+                  <span key={item} className="intent-chip">
+                    {item}
+                  </span>
+                ))}
+              </div>
+
+              <div className="hero-actions">
+                <a className="primary-button" href="#operations">
+                  <ArrowRight size={17} />
+                  Explore live flow
+                </a>
+                <a className="ghost-button" href={chainDeployment.links.executeTx} target="_blank" rel="noreferrer">
+                  <ExternalLink size={17} />
+                  Open Galileo proof
+                </a>
+              </div>
+            </div>
+
+            <div className="hero-signals" role="list" aria-label="Judge proof signals">
+              {judgeSignals.map((signal) => (
+                <HeroSignal key={signal.label} {...signal} />
+              ))}
+            </div>
           </div>
         </div>
 
@@ -245,15 +267,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="narrative-stage" aria-label="Product story arc">
+      <section className="narrative-stage section-shell section-shell-amber" aria-label="Product story arc">
         <div className="section-heading stage-heading">
           <span>Three acts</span>
           <h2>Turn a risky agent wallet story into a sequence judges can follow without effort.</h2>
         </div>
         <div className="act-grid">
-          {storyActs.map((act) => (
+          {storyActs.map((act, index) => (
             <article key={act.step} className="act-card">
-              <span>{act.step}</span>
+              <div className="act-card-topline">
+                <span>{act.step}</span>
+                <strong>{`0${index + 1}`}</strong>
+              </div>
               <h3>{act.title}</h3>
               <p>{act.text}</p>
             </article>
@@ -261,7 +286,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="showcase-stage" aria-labelledby="operations-heading">
+      <section className="showcase-stage section-shell section-shell-forest" aria-labelledby="operations-heading">
         <div className="stage-rail">
           <span>Interactive core</span>
           <h2 id="operations-heading">Show the product doing one believable job from proposal to policy check.</h2>
@@ -378,7 +403,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="evidence-stage" aria-labelledby="evidence-heading">
+      <section className="evidence-stage section-shell section-shell-blue" aria-labelledby="evidence-heading">
         <div className="section-heading stage-heading">
           <span>Proof stack</span>
           <h2 id="evidence-heading">Once the interaction lands, prove it across chain, storage, and compute in one clean sweep.</h2>
@@ -436,7 +461,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="integration-stage" aria-labelledby="integration-heading">
+      <section className="integration-stage section-shell section-shell-sand" aria-labelledby="integration-heading">
         <div className="section-heading stage-heading">
           <span>System picture</span>
           <h2 id="integration-heading">End the page by showing the whole machine, not by dumping more controls.</h2>

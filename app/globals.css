@@ -20,6 +20,45 @@
   --shadow: 0 30px 80px rgba(60, 52, 36, 0.12);
 }
 
+@keyframes ambientDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(10px, -12px, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes ambientPulse {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes lineSweep {
+  0% {
+    transform: translateX(-14%);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(10%);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateX(-14%);
+    opacity: 0.3;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -175,22 +214,112 @@ dt,
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(320px, 0.8fr);
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.92fr);
+  gap: 28px;
   align-items: stretch;
-  margin-bottom: 26px;
+  margin-bottom: 30px;
 }
 
 .hero-copy {
-  padding: 14px 0 10px;
+  display: flex;
+}
+
+.hero-copy-shell {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  min-height: 100%;
+  border: 1px solid rgba(24, 33, 28, 0.08);
+  border-radius: 36px;
+  background:
+    linear-gradient(145deg, rgba(255, 252, 246, 0.94), rgba(247, 240, 229, 0.84)),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 48%);
+  box-shadow: var(--shadow);
+  padding: 30px;
+}
+
+.hero-copy-body {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient-ring,
+.ambient-beam,
+.ambient-dot {
+  position: absolute;
+}
+
+.ambient-ring {
+  border-radius: 999px;
+  border: 1px solid rgba(43, 106, 74, 0.14);
+  animation: ambientDrift 14s ease-in-out infinite;
+}
+
+.ambient-ring-one {
+  top: -80px;
+  left: -34px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(221, 240, 229, 0.58), transparent 68%);
+}
+
+.ambient-ring-two {
+  right: -82px;
+  bottom: 22px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(243, 225, 199, 0.56), transparent 70%);
+  animation-duration: 18s;
+}
+
+.ambient-beam {
+  top: 20%;
+  left: -12%;
+  width: 78%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(43, 106, 74, 0.35), rgba(188, 122, 47, 0.26), transparent);
+  box-shadow: 0 0 26px rgba(43, 106, 74, 0.12);
+  animation: lineSweep 11s ease-in-out infinite;
+}
+
+.ambient-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(188, 122, 47, 0.75);
+  box-shadow: 0 0 0 10px rgba(188, 122, 47, 0.08);
+  animation: ambientPulse 7s ease-in-out infinite;
+}
+
+.ambient-dot-one {
+  top: 24%;
+  right: 21%;
+}
+
+.ambient-dot-two {
+  bottom: 22%;
+  left: 14%;
+  animation-delay: 1.7s;
 }
 
 .hero-copy h1 {
   margin-top: 12px;
-  max-width: 11ch;
+  max-width: 11.5ch;
   font-size: clamp(3.5rem, 8vw, 6rem);
   line-height: 0.92;
   letter-spacing: -0.05em;
+  text-wrap: balance;
 }
 
 .hero-copy h1 span {
@@ -210,6 +339,27 @@ dt,
   color: #4f574f;
 }
 
+.hero-intent-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.intent-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(24, 33, 28, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--forest);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -221,13 +371,15 @@ dt,
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  margin-top: 26px;
+  position: relative;
+  z-index: 1;
+  margin-top: 28px;
 }
 
 .hero-signal {
   border: 1px solid rgba(24, 33, 28, 0.08);
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.66);
+  background: rgba(255, 255, 255, 0.74);
   box-shadow: 0 16px 34px rgba(72, 57, 34, 0.08);
   padding: 18px;
   text-decoration: none;
@@ -257,6 +409,7 @@ dt,
 .hero-spotlight {
   display: grid;
   gap: 16px;
+  align-content: stretch;
 }
 
 .spotlight-card {
@@ -264,7 +417,7 @@ dt,
   overflow: hidden;
   border-radius: 30px;
   padding: 24px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 24px 60px rgba(60, 52, 36, 0.13);
 }
 
 .spotlight-card::before {
@@ -371,7 +524,7 @@ dt,
 .story-strip {
   position: relative;
   z-index: 1;
-  margin: 0 0 28px;
+  margin: 0 0 32px;
 }
 
 .section-heading {
@@ -401,7 +554,70 @@ dt,
 .integration-stage {
   position: relative;
   z-index: 1;
-  margin-bottom: 34px;
+  margin-bottom: 38px;
+}
+
+.section-shell {
+  --section-accent: rgba(43, 106, 74, 0.26);
+  --section-tint: rgba(255, 253, 248, 0.76);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(24, 33, 28, 0.08);
+  border-radius: 40px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 246, 0.9), rgba(255, 255, 255, 0.7)),
+    radial-gradient(circle at top left, var(--section-tint), transparent 48%);
+  box-shadow: var(--shadow);
+  padding: 30px;
+}
+
+.section-shell::before,
+.section-shell::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.section-shell::before {
+  top: 0;
+  left: 22px;
+  width: 180px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--section-accent), transparent);
+  box-shadow: 0 0 22px var(--section-accent);
+  animation: lineSweep 12s ease-in-out infinite;
+}
+
+.section-shell::after {
+  right: -82px;
+  bottom: -82px;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  background: radial-gradient(circle, var(--section-accent), transparent 70%);
+  opacity: 0.42;
+  animation: ambientDrift 18s ease-in-out infinite;
+}
+
+.section-shell-amber {
+  --section-accent: rgba(188, 122, 47, 0.34);
+  --section-tint: rgba(243, 225, 199, 0.52);
+}
+
+.section-shell-forest {
+  --section-accent: rgba(43, 106, 74, 0.28);
+  --section-tint: rgba(223, 240, 229, 0.4);
+}
+
+.section-shell-blue {
+  --section-accent: rgba(51, 95, 157, 0.28);
+  --section-tint: rgba(232, 238, 249, 0.46);
+}
+
+.section-shell-sand {
+  --section-accent: rgba(200, 150, 88, 0.28);
+  --section-tint: rgba(249, 241, 224, 0.4);
 }
 
 .stage-heading h2 {
@@ -415,11 +631,27 @@ dt,
 }
 
 .act-card {
+  position: relative;
   border: 1px solid rgba(24, 33, 28, 0.08);
   border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255, 252, 245, 0.82), rgba(255, 255, 255, 0.66));
-  box-shadow: var(--shadow);
+  background: linear-gradient(180deg, rgba(255, 252, 245, 0.92), rgba(255, 255, 255, 0.74));
+  box-shadow: 0 22px 40px rgba(60, 52, 36, 0.08);
   padding: 24px;
+}
+
+.act-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(188, 122, 47, 0.82), rgba(43, 106, 74, 0.5));
+}
+
+.act-card-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .act-card span {
@@ -427,6 +659,13 @@ dt,
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.act-card-topline strong {
+  color: rgba(24, 33, 28, 0.18);
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 700;
 }
 
 .act-card h3 {
@@ -453,8 +692,8 @@ dt,
   top: 18px;
   border: 1px solid rgba(24, 33, 28, 0.08);
   border-radius: 28px;
-  background: rgba(255, 251, 244, 0.72);
-  box-shadow: var(--shadow);
+  background: rgba(255, 251, 244, 0.78);
+  box-shadow: 0 22px 40px rgba(60, 52, 36, 0.09);
   padding: 24px;
 }
 
@@ -849,7 +1088,7 @@ dt,
 .receipt-card {
   border: 1px solid rgba(24, 33, 28, 0.08);
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.9);
   padding: 16px;
 }
 
@@ -906,6 +1145,16 @@ code {
   gap: 12px;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .ambient-ring,
+  .ambient-beam,
+  .ambient-dot,
+  .section-shell::before,
+  .section-shell::after {
+    animation: none;
+  }
+}
+
 @media (max-width: 1040px) {
   .hero-copy h1 {
     font-size: clamp(3.1rem, 7vw, 4.8rem);
@@ -920,6 +1169,11 @@ code {
   .spotlight-stats,
   .spotlight-facts {
     grid-template-columns: 1fr;
+  }
+
+  .hero-copy-shell,
+  .section-shell {
+    padding: 24px;
   }
 }
 
@@ -954,6 +1208,10 @@ code {
 @media (max-width: 840px) {
   .hero-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-shell {
+    border-radius: 30px;
   }
 }
 
