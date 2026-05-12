@@ -81,6 +81,24 @@ const storyPoints = [
   }
 ];
 
+const storyActs = [
+  {
+    step: "Act I",
+    title: "Set a boundary, not a babysitter.",
+    text: "The owner defines the operational envelope once: budget, allowlists, cooldowns, and emergency pause. The agent gets authority inside rules, not authority over the wallet."
+  },
+  {
+    step: "Act II",
+    title: "Let the agent do the routine work.",
+    text: "The agent can propose real operations like contributor payouts and renewals. Allowed actions pass, unknown recipients and oversized payouts fail with an explicit reason."
+  },
+  {
+    step: "Act III",
+    title: "Prove every move across 0G.",
+    text: "The execution is visible on Galileo, the receipt bundle lands on 0G Storage, and the risk attestation ties the operation back to a compute-assisted decision trail."
+  }
+];
+
 export default function Home() {
   const [selectedOperationId, setSelectedOperationId] = useState(demoOperations[0].id);
   const [receipts, setReceipts] = useState(initialReceipts);
@@ -227,56 +245,87 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="dashboard-grid" aria-label="0G Orbit dashboard">
-        <Panel className="wallet-panel" eyebrow="Self-custodial wallet" title="DAO Ops Orbit">
-          <div className="wallet-summary">
-            <div>
-              <span className="metric-label">Wallet Balance</span>
-              <strong>{walletProfile.balance} A0GI</strong>
-            </div>
-            <div>
-              <span className="metric-label">Authorized Agent</span>
-              <strong>{walletProfile.agentName}</strong>
-            </div>
-            <div>
-              <span className="metric-label">Owner</span>
-              <strong>{formatAddress(walletProfile.owner)}</strong>
-            </div>
-          </div>
+      <section className="narrative-stage" aria-label="Product story arc">
+        <div className="section-heading stage-heading">
+          <span>Three acts</span>
+          <h2>Turn a risky agent wallet story into a sequence judges can follow without effort.</h2>
+        </div>
+        <div className="act-grid">
+          {storyActs.map((act) => (
+            <article key={act.step} className="act-card">
+              <span>{act.step}</span>
+              <h3>{act.title}</h3>
+              <p>{act.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
-          <div className="control-row">
-            <button className="primary-button" type="button" title="Create a mock Orbit wallet">
-              <WalletCards size={17} />
-              Create Orbit
-            </button>
-            <button
-              className={paused ? "success-button" : "ghost-button"}
-              type="button"
-              title={paused ? "Resume bounded agent operations" : "Pause all agent operations"}
-              onClick={() => setPaused((value) => !value)}
-            >
-              {paused ? <Play size={17} /> : <Pause size={17} />}
-              {paused ? "Resume" : "Pause"}
-            </button>
+      <section className="showcase-stage" aria-labelledby="operations-heading">
+        <div className="stage-rail">
+          <span>Interactive core</span>
+          <h2 id="operations-heading">Show the product doing one believable job from proposal to policy check.</h2>
+          <p>
+            This section is the live loop judges actually remember. The owner has already set the envelope. The agent now attempts useful operations and Orbit
+            either executes or refuses them with a reason.
+          </p>
+          <div className="rail-note">
+            <strong>Demo persona</strong>
+            <p>DAO ops lead delegating routine contributor payments and renewals without surrendering custody.</p>
           </div>
+        </div>
 
-          <div className={paused ? "status-banner danger" : "status-banner safe"}>
-            {paused ? <Ban size={18} /> : <ShieldCheck size={18} />}
-            <span>{paused ? "Agent execution is paused by owner." : "Agent may operate only inside active policy bounds."}</span>
-          </div>
-        </Panel>
+        <div className="stage-main">
+          <div className="dashboard-grid" aria-label="0G Orbit dashboard">
+            <Panel className="wallet-panel" eyebrow="Self-custodial wallet" title="DAO Ops Orbit">
+              <div className="wallet-summary">
+                <div>
+                  <span className="metric-label">Wallet Balance</span>
+                  <strong>{walletProfile.balance} A0GI</strong>
+                </div>
+                <div>
+                  <span className="metric-label">Authorized Agent</span>
+                  <strong>{walletProfile.agentName}</strong>
+                </div>
+                <div>
+                  <span className="metric-label">Owner</span>
+                  <MonospaceValue value={formatAddress(walletProfile.owner)} compact />
+                </div>
+              </div>
 
-        <Panel eyebrow="Policy envelope" title="Active Bounds">
-          <div className="policy-list">
-            <PolicyItem icon={<CircleDollarSign size={17} />} label="Per transaction cap" value={`${policySnapshot.perTxCap} A0GI`} />
-            <PolicyItem icon={<Activity size={17} />} label="Daily budget" value={`${policySnapshot.dailyCap} A0GI`} />
-            <PolicyItem icon={<BadgeCheck size={17} />} label="Allowed recipients" value={`${policySnapshot.allowedRecipients.length}`} />
-            <PolicyItem icon={<KeyRound size={17} />} label="Allowed selectors" value={`${policySnapshot.allowedSelectors.length}`} />
-            <PolicyItem icon={<RefreshCw size={17} />} label="Cooldown" value={`${policySnapshot.cooldownMinutes} min`} />
-          </div>
-        </Panel>
+              <div className="control-row">
+                <button className="primary-button" type="button" title="Create a mock Orbit wallet">
+                  <WalletCards size={17} />
+                  Create Orbit
+                </button>
+                <button
+                  className={paused ? "success-button" : "ghost-button"}
+                  type="button"
+                  title={paused ? "Resume bounded agent operations" : "Pause all agent operations"}
+                  onClick={() => setPaused((value) => !value)}
+                >
+                  {paused ? <Play size={17} /> : <Pause size={17} />}
+                  {paused ? "Resume" : "Pause"}
+                </button>
+              </div>
 
-        <Panel className="operation-panel" eyebrow="Agent run panel" title="Operation Simulator" id="operations">
+              <div className={paused ? "status-banner danger" : "status-banner safe"}>
+                {paused ? <Ban size={18} /> : <ShieldCheck size={18} />}
+                <span>{paused ? "Agent execution is paused by owner." : "Agent may operate only inside active policy bounds."}</span>
+              </div>
+            </Panel>
+
+            <Panel className="policy-panel" eyebrow="Policy envelope" title="Active Bounds">
+              <div className="policy-list">
+                <PolicyItem icon={<CircleDollarSign size={17} />} label="Per transaction cap" value={`${policySnapshot.perTxCap} A0GI`} />
+                <PolicyItem icon={<Activity size={17} />} label="Daily budget" value={`${policySnapshot.dailyCap} A0GI`} />
+                <PolicyItem icon={<BadgeCheck size={17} />} label="Allowed recipients" value={`${policySnapshot.allowedRecipients.length}`} />
+                <PolicyItem icon={<KeyRound size={17} />} label="Allowed selectors" value={`${policySnapshot.allowedSelectors.length}`} />
+                <PolicyItem icon={<RefreshCw size={17} />} label="Cooldown" value={`${policySnapshot.cooldownMinutes} min`} />
+              </div>
+            </Panel>
+
+            <Panel className="operation-panel" eyebrow="Agent run panel" title="Operation Simulator" id="operations">
           <div className="operation-list" role="list" aria-label="Demo operations">
             {demoOperations.map((operation) => (
               <button
@@ -324,9 +373,19 @@ export default function Home() {
               Run Operation
             </button>
           </div>
-        </Panel>
+            </Panel>
+          </div>
+        </div>
+      </section>
 
-        <Panel className="receipt-panel" eyebrow="0G receipts" title="Audit Trail">
+      <section className="evidence-stage" aria-labelledby="evidence-heading">
+        <div className="section-heading stage-heading">
+          <span>Proof stack</span>
+          <h2 id="evidence-heading">Once the interaction lands, prove it across chain, storage, and compute in one clean sweep.</h2>
+        </div>
+
+        <div className="evidence-layout">
+          <Panel className="receipt-panel" eyebrow="0G receipts" title="Audit Trail">
           <div className="receipt-list" role="list" aria-label="Operation receipts">
             {receipts.map((receipt) => (
               <article key={receipt.id} className={`receipt-card ${receipt.status}`}>
@@ -343,33 +402,45 @@ export default function Home() {
                   <span>{receipt.amount} A0GI</span>
                   <span>{receipt.recipient}</span>
                 </div>
-                <code>{formatAddress(receipt.receiptRoot, 10)}</code>
+                <code>
+                  <MonospaceValue value={formatAddress(receipt.receiptRoot, 10)} compact />
+                </code>
               </article>
             ))}
           </div>
-        </Panel>
+          </Panel>
 
-        <Panel className="proof-panel" eyebrow="Galileo proof" title="Live Deployment">
-          <div className="proof-grid">
-            <ProofItem label="Chain" value={`${chainDeployment.network} / ${chainDeployment.chainId}`} href={chainDeployment.explorerUrl} />
-            <ProofItem label="Factory" value={formatAddress(chainDeployment.factoryAddress, 8)} href={chainDeployment.links.factory} />
-            <ProofItem label="Orbit Wallet" value={formatAddress(chainDeployment.orbitWalletAddress, 8)} href={chainDeployment.links.orbitWallet} />
-            <ProofItem label="Allowed Tx" value={formatAddress(chainDeployment.executeTxHash, 10)} href={chainDeployment.links.executeTx} />
-            <ProofItem label="Rejected Sample" value={chainDeployment.rejectedReason} />
-            <ProofItem label="Faucet Tx" value={formatAddress(chainDeployment.faucetTxHash ?? "", 10)} href={chainDeployment.links.faucetTx} />
-          </div>
-        </Panel>
+          <div className="proof-column">
+            <Panel className="proof-panel" eyebrow="Galileo proof" title="Live Deployment">
+              <div className="proof-grid">
+                <ProofItem label="Chain" value={`${chainDeployment.network} / ${chainDeployment.chainId}`} href={chainDeployment.explorerUrl} />
+                <ProofItem label="Factory" value={formatAddress(chainDeployment.factoryAddress, 8)} href={chainDeployment.links.factory} />
+                <ProofItem label="Orbit Wallet" value={formatAddress(chainDeployment.orbitWalletAddress, 8)} href={chainDeployment.links.orbitWallet} />
+                <ProofItem label="Allowed Tx" value={formatAddress(chainDeployment.executeTxHash, 10)} href={chainDeployment.links.executeTx} />
+                <ProofItem label="Rejected Sample" value={chainDeployment.rejectedReason} />
+                <ProofItem label="Faucet Tx" value={formatAddress(chainDeployment.faucetTxHash ?? "", 10)} href={chainDeployment.links.faucetTx} />
+              </div>
+            </Panel>
 
-        <Panel className="evidence-panel" eyebrow="0G Storage + Compute" title="Receipt Evidence">
-          <div className="evidence-grid">
-            <EvidenceItem label="Storage" value={`${storageEvidence.status} / ${storageEvidence.mode}`} />
-            <EvidenceItem label="Storage Root" value={formatAddress(storageEvidence.rootHash, 10)} />
-            <EvidenceItem label="Storage Tx" value={formatAddress(storageEvidence.txHash ?? "", 10)} href={chainDeployment.links.storageTx} />
-            <EvidenceItem label="Compute Providers" value={`${computeEvidence.providerCount} discovered`} />
-            <EvidenceItem label="Risk Verdict" value={`${computeEvidence.verdict} / score ${computeEvidence.riskScore}`} />
-            <EvidenceItem label="Attestation Root" value={formatAddress(computeEvidence.attestationRoot, 10)} />
+            <Panel className="evidence-panel" eyebrow="0G Storage + Compute" title="Receipt Evidence">
+              <div className="evidence-grid">
+                <EvidenceItem label="Storage" value={`${storageEvidence.status} / ${storageEvidence.mode}`} />
+                <EvidenceItem label="Storage Root" value={formatAddress(storageEvidence.rootHash, 10)} />
+                <EvidenceItem label="Storage Tx" value={formatAddress(storageEvidence.txHash ?? "", 10)} href={chainDeployment.links.storageTx} />
+                <EvidenceItem label="Compute Providers" value={`${computeEvidence.providerCount} discovered`} />
+                <EvidenceItem label="Risk Verdict" value={`${computeEvidence.verdict} / score ${computeEvidence.riskScore}`} />
+                <EvidenceItem label="Attestation Root" value={formatAddress(computeEvidence.attestationRoot, 10)} />
+              </div>
+            </Panel>
           </div>
-        </Panel>
+        </div>
+      </section>
+
+      <section className="integration-stage" aria-labelledby="integration-heading">
+        <div className="section-heading stage-heading">
+          <span>System picture</span>
+          <h2 id="integration-heading">End the page by showing the whole machine, not by dumping more controls.</h2>
+        </div>
 
         <Panel className="integration-panel" eyebrow="0G integration map" title="From Mock to Testnet">
           <div className="integration-grid">
@@ -400,7 +471,7 @@ function HeroSignal({ label, value, detail, href }: { label: string; value: stri
   const content = (
     <>
       <span>{label}</span>
-      <strong>{value}</strong>
+      <MonospaceValue value={value} as="strong" />
       <p>{detail}</p>
     </>
   );
@@ -418,7 +489,7 @@ function SpotlightStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="spotlight-stat">
       <span>{label}</span>
-      <strong>{value}</strong>
+      <MonospaceValue value={value} as="strong" compact />
     </div>
   );
 }
@@ -443,6 +514,12 @@ function PolicyItem({ icon, label, value }: { icon: React.ReactNode; label: stri
   );
 }
 
+function MonospaceValue({ value, as = "span", compact = false }: { value: string; as?: "span" | "strong"; compact?: boolean }) {
+  const Component = as;
+
+  return <Component className={compact ? "mono-value compact" : "mono-value"}>{value}</Component>;
+}
+
 function ProofItem({ label, value, href }: { label: string; value: string; href?: string }) {
   return (
     <div className="proof-item">
@@ -451,10 +528,10 @@ function ProofItem({ label, value, href }: { label: string; value: string; href?
         {href ? (
           <a href={href} target="_blank" rel="noreferrer" title={`Open ${label} proof`}>
             <ExternalLink size={14} />
-            <span>{value}</span>
+            <MonospaceValue value={value} />
           </a>
         ) : (
-          <span>{value}</span>
+          <MonospaceValue value={value} />
         )}
       </dd>
     </div>
@@ -469,10 +546,10 @@ function EvidenceItem({ label, value, href }: { label: string; value: string; hr
         {href ? (
           <a href={href} target="_blank" rel="noreferrer" title={`Open ${label} proof`}>
             <ExternalLink size={14} />
-            <span>{value}</span>
+            <MonospaceValue value={value} />
           </a>
         ) : (
-          <span>{value}</span>
+          <MonospaceValue value={value} />
         )}
       </dd>
     </div>

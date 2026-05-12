@@ -175,7 +175,7 @@ dt,
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-columns: minmax(0, 1.04fr) minmax(320px, 0.8fr);
   gap: 24px;
   align-items: stretch;
   margin-bottom: 26px;
@@ -243,7 +243,7 @@ dt,
 .hero-signal strong {
   display: block;
   margin-top: 8px;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.1;
 }
 
@@ -393,6 +393,108 @@ dt,
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+}
+
+.narrative-stage,
+.showcase-stage,
+.evidence-stage,
+.integration-stage {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 34px;
+}
+
+.stage-heading h2 {
+  max-width: 14ch;
+}
+
+.act-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.act-card {
+  border: 1px solid rgba(24, 33, 28, 0.08);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 252, 245, 0.82), rgba(255, 255, 255, 0.66));
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.act-card span {
+  color: var(--amber);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.act-card h3 {
+  margin-top: 12px;
+  font-size: 28px;
+  line-height: 1.02;
+}
+
+.act-card p {
+  margin-top: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.showcase-stage {
+  display: grid;
+  grid-template-columns: 0.34fr 0.66fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.stage-rail {
+  position: sticky;
+  top: 18px;
+  border: 1px solid rgba(24, 33, 28, 0.08);
+  border-radius: 28px;
+  background: rgba(255, 251, 244, 0.72);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.stage-rail span {
+  color: var(--amber);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stage-rail h2 {
+  margin-top: 12px;
+  font-size: 42px;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.stage-rail p {
+  margin-top: 16px;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.rail-note {
+  margin-top: 22px;
+  border-top: 1px solid rgba(24, 33, 28, 0.08);
+  padding-top: 18px;
+}
+
+.rail-note strong {
+  display: block;
+  font-size: 16px;
+}
+
+.rail-note p {
+  margin-top: 8px;
+}
+
+.stage-main {
+  min-width: 0;
 }
 
 .story-card,
@@ -682,13 +784,31 @@ dt,
   font-weight: 700;
 }
 
-.receipt-panel {
-  grid-column: 1 / 2;
+.mono-value {
+  display: inline-block;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.94em;
+  line-height: 1.35;
 }
 
-.proof-panel,
-.evidence-panel {
-  grid-column: 2 / 3;
+.mono-value.compact {
+  font-size: 0.86em;
+}
+
+.evidence-layout {
+  display: grid;
+  grid-template-columns: 1.06fr 0.94fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.proof-column {
+  display: grid;
+  gap: 18px;
 }
 
 .receipt-list {
@@ -766,6 +886,7 @@ dt,
 
 code {
   display: block;
+  min-width: 0;
   overflow-wrap: anywhere;
   border-radius: 14px;
   background: #edf0e8;
@@ -785,8 +906,26 @@ code {
   gap: 12px;
 }
 
+@media (max-width: 1040px) {
+  .hero-copy h1 {
+    font-size: clamp(3.1rem, 7vw, 4.8rem);
+  }
+
+  .hero-copy p {
+    font-size: 17px;
+  }
+
+  .hero-signals,
+  .act-grid,
+  .spotlight-stats,
+  .spotlight-facts {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 1180px) {
-  .hero-grid,
+  .showcase-stage,
+  .evidence-layout,
   .dashboard-grid,
   .operation-panel,
   .wallet-summary,
@@ -795,16 +934,8 @@ code {
   .evidence-grid,
   .integration-grid,
   .story-grid,
-  .hero-signals,
-  .spotlight-stats,
-  .spotlight-facts {
+  .act-grid {
     grid-template-columns: 1fr;
-  }
-
-  .receipt-panel,
-  .proof-panel,
-  .evidence-panel {
-    grid-column: auto;
   }
 
   .section-heading,
@@ -813,6 +944,16 @@ code {
   .spotlight-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .stage-rail {
+    position: static;
+  }
+}
+
+@media (max-width: 840px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
   }
 }
 
