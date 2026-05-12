@@ -43,6 +43,44 @@ const statusIcon: Record<ReceiptStatus, React.ReactNode> = {
   simulated: <Activity size={16} />
 };
 
+const judgeSignals = [
+  {
+    label: "Live on Galileo",
+    value: formatAddress(chainDeployment.executeTxHash, 10),
+    detail: "Allowed execution visible on explorer",
+    href: chainDeployment.links.executeTx
+  },
+  {
+    label: "Receipt on 0G Storage",
+    value: formatAddress(storageEvidence.rootHash, 10),
+    detail: "Uploaded bundle root for replayable audit",
+    href: chainDeployment.links.storageTx
+  },
+  {
+    label: "Compute attestation",
+    value: `${computeEvidence.providerCount} providers`,
+    detail: `${computeEvidence.verdict} / score ${computeEvidence.riskScore}`
+  }
+];
+
+const storyPoints = [
+  {
+    icon: <ShieldCheck size={18} />,
+    title: "One clear promise",
+    text: "The product thesis is visible in the first screen: useful agents, bounded authority, no private-key custody."
+  },
+  {
+    icon: <Database size={18} />,
+    title: "Proof before paragraphs",
+    text: "Winning demos front-load explorer links, storage roots, and receipts instead of hiding them in docs or terminals."
+  },
+  {
+    icon: <ClipboardCheck size={18} />,
+    title: "A story judges can retell",
+    text: "Persona, policy, action, rejection, evidence. The flow is memorable because it reads like one product story, not a feature list."
+  }
+];
+
 export default function Home() {
   const [selectedOperationId, setSelectedOperationId] = useState(demoOperations[0].id);
   const [receipts, setReceipts] = useState(initialReceipts);
@@ -83,6 +121,9 @@ export default function Home() {
 
   return (
     <main className="page-shell">
+      <div className="page-orb page-orb-one" aria-hidden="true" />
+      <div className="page-orb page-orb-two" aria-hidden="true" />
+
       <section className="topbar" aria-label="Project header">
         <div className="brand-lockup">
           <span className="brand-mark" aria-hidden="true">
@@ -96,6 +137,93 @@ export default function Home() {
         <div className="network-pill" title="Target deployment network">
           <RadioTower size={16} />
           <span>Galileo Testnet</span>
+        </div>
+      </section>
+
+      <section className="hero-grid" aria-label="Product introduction">
+        <div className="hero-copy">
+          <span className="hero-kicker">Track 3 / Operational tooling for the agentic economy</span>
+          <h1>
+            Let AI agents operate.
+            <span>Keep the wallet in orbit.</span>
+          </h1>
+          <p>
+            0G Orbit gives DAOs a self-custodial operational wallet for autonomous agents. Agents can pay, renew, and execute inside owner-defined policy
+            bounds, while every action stays provable across 0G Chain, Storage, and Compute.
+          </p>
+
+          <div className="hero-actions">
+            <a className="primary-button" href="#operations">
+              <ArrowRight size={17} />
+              Explore live flow
+            </a>
+            <a className="ghost-button" href={chainDeployment.links.executeTx} target="_blank" rel="noreferrer">
+              <ExternalLink size={17} />
+              Open Galileo proof
+            </a>
+          </div>
+
+          <div className="hero-signals" role="list" aria-label="Judge proof signals">
+            {judgeSignals.map((signal) => (
+              <HeroSignal key={signal.label} {...signal} />
+            ))}
+          </div>
+        </div>
+
+        <div className="hero-spotlight">
+          <article className="spotlight-card spotlight-primary">
+            <div className="spotlight-header">
+              <span className="spotlight-badge">Live deployment</span>
+              <span className="spotlight-pill">0G Galileo / {chainDeployment.chainId}</span>
+            </div>
+            <h2>{walletProfile.name}</h2>
+            <p>Keep AI agents in orbit, not in custody.</p>
+
+            <div className="spotlight-stats">
+              <SpotlightStat label="Wallet balance" value={`${walletProfile.balance} A0GI`} />
+              <SpotlightStat label="Authorized agent" value={walletProfile.agentName} />
+              <SpotlightStat label="Orbit wallet" value={formatAddress(chainDeployment.orbitWalletAddress, 8)} />
+              <SpotlightStat label="Storage status" value={storageEvidence.status} />
+            </div>
+          </article>
+
+          <article className="spotlight-card spotlight-secondary">
+            <div className="spotlight-header">
+              <span className="spotlight-badge">Selected operation</span>
+              <span className={canExecute ? "verdict allowed" : "verdict rejected"}>
+                {canExecute ? <CheckCircle2 size={16} /> : <AlertTriangle size={16} />}
+                {canExecute ? "Executable" : "Blocked"}
+              </span>
+            </div>
+            <h3>{selectedOperation.title}</h3>
+            <p>{selectedOperation.agentReasoning}</p>
+            <dl className="spotlight-facts">
+              <div>
+                <dt>Recipient</dt>
+                <dd>{selectedOperation.recipient}</dd>
+              </div>
+              <div>
+                <dt>Risk</dt>
+                <dd>{selectedOperation.riskLevel}</dd>
+              </div>
+              <div>
+                <dt>Policy</dt>
+                <dd>{paused ? "Paused by owner" : selectedOperation.reason}</dd>
+              </div>
+            </dl>
+          </article>
+        </div>
+      </section>
+
+      <section className="story-strip" aria-label="Why the interface works for judges">
+        <div className="section-heading">
+          <span>What strong hackathon demos do well</span>
+          <h2>They show one thesis, one interaction loop, and one proof chain in the first minute.</h2>
+        </div>
+        <div className="story-grid">
+          {storyPoints.map((point) => (
+            <StoryPoint key={point.title} {...point} />
+          ))}
         </div>
       </section>
 
@@ -148,7 +276,7 @@ export default function Home() {
           </div>
         </Panel>
 
-        <Panel className="operation-panel" eyebrow="Agent run panel" title="Operation Simulator">
+        <Panel className="operation-panel" eyebrow="Agent run panel" title="Operation Simulator" id="operations">
           <div className="operation-list" role="list" aria-label="Demo operations">
             {demoOperations.map((operation) => (
               <button
@@ -256,15 +384,52 @@ export default function Home() {
   );
 }
 
-function Panel({ eyebrow, title, className = "", children }: { eyebrow: string; title: string; className?: string; children: React.ReactNode }) {
+function Panel({ eyebrow, title, className = "", children, id }: { eyebrow: string; title: string; className?: string; children: React.ReactNode; id?: string }) {
   return (
-    <section className={`panel ${className}`}>
+    <section className={`panel ${className}`} id={id}>
       <div className="panel-heading">
         <span>{eyebrow}</span>
         <h2>{title}</h2>
       </div>
       {children}
     </section>
+  );
+}
+
+function HeroSignal({ label, value, detail, href }: { label: string; value: string; detail: string; href?: string }) {
+  const content = (
+    <>
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <p>{detail}</p>
+    </>
+  );
+
+  return href ? (
+    <a className="hero-signal" href={href} target="_blank" rel="noreferrer">
+      {content}
+    </a>
+  ) : (
+    <article className="hero-signal">{content}</article>
+  );
+}
+
+function SpotlightStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="spotlight-stat">
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </div>
+  );
+}
+
+function StoryPoint({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
+  return (
+    <article className="story-card">
+      <span>{icon}</span>
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </article>
   );
 }
 
