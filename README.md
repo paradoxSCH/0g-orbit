@@ -49,20 +49,6 @@ Autonomous agents should not hold private keys. They should hold limited, revoca
 - Risk attestation root: `0xf0d39b1f4c4c9ac78f8f4f90def666096ec0fcfd777b61e2153cd788e8d0c237`.
 - Compute attestation: [integrations/compute-attestation.json](integrations/compute-attestation.json).
 
-## Key Docs
-
-- [Product Plan](docs/product-plan.md)
-- [MVP Spec](docs/mvp-spec.md)
-- [Deliverables](docs/deliverables.md)
-- [Mock Strategy](docs/mock-strategy.md)
-- [User Prep Checklist](docs/user-prep-checklist.md)
-- [Competition Positioning](docs/competition-positioning.md)
-- [Execution Backlog](docs/execution-backlog.md)
-- [Architecture](docs/architecture.md)
-- [Naming](docs/naming.md)
-- [Development Status](docs/dev-status.md)
-- [Demo Video Script](docs/demo-video-script.md)
-
 ## Development Commands
 
 ```bash
