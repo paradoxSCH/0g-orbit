@@ -101,6 +101,45 @@ const storyActs = [
   }
 ];
 
+const riskVerdictLabel = computeEvidence.verdict === "approve" ? "approved" : computeEvidence.verdict === "reject" ? "rejected" : computeEvidence.verdict;
+
+const proofHighlights = [
+  {
+    label: "Galileo tx",
+    value: formatAddress(chainDeployment.executeTxHash, 6),
+    text: "Allowed execution is visible on the testnet explorer.",
+    href: chainDeployment.links.executeTx
+  },
+  {
+    label: "Storage root",
+    value: formatAddress(storageEvidence.rootHash, 6),
+    text: "Full receipt bundle is anchored for replayable audit."
+  },
+  {
+    label: "Compute review",
+    value: `${computeEvidence.providerCount} providers`,
+    text: `${riskVerdictLabel} risk verdict with score ${computeEvidence.riskScore}.`
+  }
+];
+
+const systemHighlights = [
+  {
+    label: "Wallet layer",
+    value: "Policy gate",
+    text: "The contract enforces caps, allowlists, cooldowns, and pause."
+  },
+  {
+    label: "Data layer",
+    value: "Receipts",
+    text: "Storage keeps reasoning, invoices, policies, and outcomes together."
+  },
+  {
+    label: "Agent layer",
+    value: "Bounded ID",
+    text: "The agent can act only through delegated, revocable authority."
+  }
+];
+
 export default function Home() {
   const [selectedOperationId, setSelectedOperationId] = useState(demoOperations[0].id);
   const [receipts, setReceipts] = useState(initialReceipts);
@@ -404,9 +443,16 @@ export default function Home() {
       </section>
 
       <section className="evidence-stage section-shell section-shell-blue" aria-labelledby="evidence-heading">
-        <div className="section-heading stage-heading">
-          <span>Proof stack</span>
-          <h2 id="evidence-heading">Once the interaction lands, prove it across chain, storage, and compute in one clean sweep.</h2>
+        <div className="section-heading stage-heading balanced-heading">
+          <div className="stage-heading-copy">
+            <span>Proof stack</span>
+            <h2 id="evidence-heading">Once the interaction lands, prove it across chain, storage, and compute in one clean sweep.</h2>
+          </div>
+          <div className="stage-metric-grid" aria-label="Proof highlights">
+            {proofHighlights.map((item) => (
+              <StageMetric key={item.label} {...item} />
+            ))}
+          </div>
         </div>
 
         <div className="evidence-layout">
@@ -462,9 +508,16 @@ export default function Home() {
       </section>
 
       <section className="integration-stage section-shell section-shell-sand" aria-labelledby="integration-heading">
-        <div className="section-heading stage-heading">
-          <span>System picture</span>
-          <h2 id="integration-heading">End the page by showing the whole machine, not by dumping more controls.</h2>
+        <div className="section-heading stage-heading balanced-heading">
+          <div className="stage-heading-copy">
+            <span>System picture</span>
+            <h2 id="integration-heading">End the page by showing the whole machine, not by dumping more controls.</h2>
+          </div>
+          <div className="stage-metric-grid" aria-label="System highlights">
+            {systemHighlights.map((item) => (
+              <StageMetric key={item.label} {...item} />
+            ))}
+          </div>
         </div>
 
         <Panel className="integration-panel" eyebrow="0G integration map" title="From Mock to Testnet">
@@ -578,6 +631,24 @@ function EvidenceItem({ label, value, href }: { label: string; value: string; hr
         )}
       </dd>
     </div>
+  );
+}
+
+function StageMetric({ label, value, text, href }: { label: string; value: string; text: string; href?: string }) {
+  const content = (
+    <>
+      <span>{label}</span>
+      <MonospaceValue value={value} as="strong" compact />
+      <p>{text}</p>
+    </>
+  );
+
+  return href ? (
+    <a className="stage-metric-card" href={href} target="_blank" rel="noreferrer">
+      {content}
+    </a>
+  ) : (
+    <article className="stage-metric-card">{content}</article>
   );
 }
 
