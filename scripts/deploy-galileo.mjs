@@ -6,10 +6,6 @@ import { ethers } from "ethers";
 const { loadEnvConfig } = nextEnv;
 
 loadEnvConfig(process.cwd());
-
-const rpcUrl = process.env.ORBIT_GALILEO_RPC_URL || "https://evmrpc-testnet.0g.ai";
-const explorerUrl = process.env.ORBIT_EXPLORER_URL || "https://chainscan-galileo.0g.ai";
-const expectedChainId = BigInt(process.env.NEXT_PUBLIC_0G_CHAIN_ID || "16602");
 const privateKey = process.env.ORBIT_DEPLOYER_PRIVATE_KEY;
 
 if (!privateKey) {
@@ -36,6 +32,33 @@ function readArg(name) {
   const match = process.argv.find((value) => value.startsWith(prefix));
   return match ? match.slice(prefix.length) : undefined;
 }
+
+const targetNetwork = readArg("network") || process.env.ORBIT_NETWORK_TARGET || "galileo";
+const defaultsByNetwork = {
+  galileo: {
+    networkName: "0G Galileo Testnet",
+    rpcUrl: "https://evmrpc-testnet.0g.ai",
+    explorerUrl: "https://chainscan-galileo.0g.ai",
+    chainId: "16602"
+  },
+  mainnet: {
+    networkName: "0G Mainnet",
+    rpcUrl: "https://evmrpc.0g.ai",
+    explorerUrl: "https://chainscan.0g.ai",
+    chainId: "16661"
+  }
+};
+
+const networkDefaults = defaultsByNetwork[targetNetwork];
+
+if (!networkDefaults) {
+  throw new Error(`Unsupported network target '${targetNetwork}'. Use galileo or mainnet.`);
+}
+
+const rpcUrl = process.env.ORBIT_RPC_URL || process.env.ORBIT_GALILEO_RPC_URL || networkDefaults.rpcUrl;
+const explorerUrl = process.env.ORBIT_EXPLORER_URL || networkDefaults.explorerUrl;
+const expectedChainId = BigInt(process.env.ORBIT_CHAIN_ID || process.env.NEXT_PUBLIC_0G_CHAIN_ID || networkDefaults.chainId);
+const networkName = process.env.ORBIT_NETWORK_NAME || process.env.NEXT_PUBLIC_0G_NETWORK_NAME || networkDefaults.networkName;
 
 function parseA0gi(value, fallback) {
   return ethers.parseEther(value || fallback);
@@ -66,7 +89,7 @@ const orbitFactoryArtifact = readArtifact("OrbitFactory");
 const orbitWalletArtifact = readArtifact("OrbitWallet");
 const factoryFactory = new ethers.ContractFactory(orbitFactoryArtifact.abi, orbitFactoryArtifact.bytecode, deployer);
 
-console.log(`Network: ${process.env.NEXT_PUBLIC_0G_NETWORK_NAME || "0G Galileo Testnet"} (${network.chainId})`);
+console.log(`Network: ${networkName} (${network.chainId})`);
 console.log(`Deployer: ${deployer.address}`);
 console.log(`Balance: ${ethers.formatEther(balance)} A0GI`);
 
@@ -100,7 +123,7 @@ await setRecipientTx.wait();
 const setSelectorTx = await orbitWallet.setSelector("0xa9059cbb", true);
 await setSelectorTx.wait();
 
-const receiptRoot = ethers.id("0g-orbit-galileo-demo-receipt-v1");
+const receiptRoot = ethers.id(`0g-orbit-${targetNetwork}-demo-receipt-v1`);
 const executeTx = await orbitWallet.execute(deployer.address, executeValue, "0x", receiptRoot);
 await executeTx.wait();
 const rejectedReason = await orbitWallet.rejectionReason("0x000000000000000000000000000000000000dEaD", executeValue, "0x");
@@ -109,7 +132,8 @@ mkdirSync("deployments", { recursive: true });
 
 const deployment = {
   project: "0G Orbit",
-  network: process.env.NEXT_PUBLIC_0G_NETWORK_NAME || "0G Galileo Testnet",
+  targetNetwork,
+  network: networkName,
   chainId: network.chainId.toString(),
   rpcUrl,
   explorerUrl,
@@ -137,9 +161,9 @@ const deployment = {
   deployedAt: new Date().toISOString()
 };
 
-writeFileSync(join("deployments", "galileo.json"), `${JSON.stringify(deployment, null, 2)}\n`);
+writeFileSync(join("deployments", `${targetNetwork}.json`), `${JSON.stringify(deployment, null, 2)}\n`);
 
 console.log(`OrbitWallet: ${orbitWalletAddress}`);
 console.log(`Allowed execution tx: ${executeTx.hash}`);
 console.log(`Rejected reason sample: ${rejectedReason}`);
-console.log("Deployment record: deployments/galileo.json");
+console.log(`Deployment record: deployments/${targetNetwork}.json`);
