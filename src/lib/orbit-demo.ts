@@ -1,18 +1,22 @@
 const deployment = {
-  network: "0G Galileo Testnet",
-  chainId: "16602",
-  explorerUrl: "https://chainscan-galileo.0g.ai",
-  faucetTxHash: "0x360bbd258e3e612fe423bf363abb94c96903c76a5932837c6bc11e7524214209",
+  network: "0G Mainnet",
+  chainId: "16661",
+  explorerUrl: "https://chainscan.0g.ai",
+  faucetTxHash: null,
   deployer: "0x9e6912987f71970D96AB7a16151962D9502833dA",
   agent: "0x9e6912987f71970D96AB7a16151962D9502833dA",
   factoryAddress: "0xDa6B1c6b391E7Aa1EAF8124Ce36523B274dac422",
   orbitWalletAddress: "0xE63503a61fafF1E0b57019849924818fA62Efa36",
   demoExecuteValueA0GI: "0.001",
-  demoReceiptRoot: "0x6501319d6ab8fdc2c25e7ef73bd6450e8b94ab2c9d59ecc4482f494cc0c3c89a",
+  demoReceiptRoot: "0xf39fee84b7a9300916df2da0a9d0061d0e66a4c08b83e04d3e810d3de2b94172",
   demoRejectedReason: "RECIPIENT_NOT_ALLOWED",
-  deployedAt: "2026-05-11T05:16:05.789Z",
+  deployedAt: "2026-05-16T10:54:20.780Z",
   transactions: {
-    executeAllowedOperation: "0x09bfe02e652d734ea465e99ea0e98f65b7b9ffcac1264d6eb0872980b2199190"
+    factoryDeployment: "0x4cb2d1b4d753101456178a8f87bd27f9bf26c89212d460563240963ef80e944e",
+    createOrbit: "0xfe53925fd2da50e79aada526740bc162c873b37e11366d4ad9ff0d6d5c8a3c73",
+    setRecipient: "0x207c53ba4ad72c015b67eba32b0651bba116df3e3028ca63058cc79a4b92d4c2",
+    setSelector: "0xbd7dba1d53e2bcda2f7dbb390da51cc620d6f8efdec1d25d289f4585866e6c59",
+    executeAllowedOperation: "0xe0492e5b5debf0af5b330ca6edb582b90954f9e85bf2120c1f37c7d5c19f73fe"
   }
 };
 
@@ -135,8 +139,8 @@ export const demoOperations: DemoOperation[] = [
 
 export const initialReceipts: DemoReceipt[] = [
   {
-    id: "galileo-1",
-    title: "Galileo Operation Executed",
+    id: "mainnet-1",
+    title: "Mainnet Operation Executed",
     status: "executed",
     amount: Number(deployment.demoExecuteValueA0GI),
     recipient: "Deployer Wallet",
@@ -162,17 +166,22 @@ export const chainDeployment = {
   network: deployment.network,
   chainId: deployment.chainId,
   explorerUrl: deployment.explorerUrl,
+  deployer: deployment.deployer,
   factoryAddress: deployment.factoryAddress,
   orbitWalletAddress: deployment.orbitWalletAddress,
+  factoryDeploymentTxHash: deployment.transactions.factoryDeployment,
+  createOrbitTxHash: deployment.transactions.createOrbit,
   executeTxHash: deployment.transactions.executeAllowedOperation,
   rejectedReason: deployment.demoRejectedReason,
   faucetTxHash: deployment.faucetTxHash,
   links: {
     factory: `${deployment.explorerUrl}/address/${deployment.factoryAddress}`,
     orbitWallet: `${deployment.explorerUrl}/address/${deployment.orbitWalletAddress}`,
+    factoryDeployment: `${deployment.explorerUrl}/tx/${deployment.transactions.factoryDeployment}`,
+    createOrbit: `${deployment.explorerUrl}/tx/${deployment.transactions.createOrbit}`,
     executeTx: `${deployment.explorerUrl}/tx/${deployment.transactions.executeAllowedOperation}`,
-    faucetTx: `${deployment.explorerUrl}/tx/${deployment.faucetTxHash}`,
-    storageTx: `${deployment.explorerUrl}/tx/${storageStatus.uploadResult?.txHash ?? ""}`
+    faucetTx: undefined,
+    storageTx: undefined
   }
 };
 

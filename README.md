@@ -30,7 +30,7 @@ Autonomous agents are useful, but giving them raw private keys or unlimited wall
 
 - Live demo: https://paradoxsch.github.io/0g-orbit/
 - GitHub repository: https://github.com/paradoxSCH/0g-orbit
-- Galileo explorer: https://chainscan-galileo.0g.ai
+- Mainnet explorer: https://chainscan.0g.ai
 
 ## Core Thesis
 

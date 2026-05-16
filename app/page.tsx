@@ -45,7 +45,7 @@ const statusIcon: Record<ReceiptStatus, React.ReactNode> = {
 
 const judgeSignals = [
   {
-    label: "Live on Galileo",
+    label: "Live on Mainnet",
     value: formatAddress(chainDeployment.executeTxHash, 10),
     detail: "Allowed execution visible on explorer",
     href: chainDeployment.links.executeTx
@@ -53,8 +53,7 @@ const judgeSignals = [
   {
     label: "Receipt on 0G Storage",
     value: formatAddress(storageEvidence.rootHash, 10),
-    detail: "Uploaded bundle root for replayable audit",
-    href: chainDeployment.links.storageTx
+    detail: "Bundle root retained for replayable audit"
   },
   {
     label: "Compute attestation",
@@ -97,7 +96,7 @@ const storyActs = [
   {
     step: "Act III",
     title: "Prove every move across 0G.",
-    text: "The execution is visible on Galileo, the receipt bundle lands on 0G Storage, and the risk attestation ties the operation back to a compute-assisted decision trail."
+    text: "The execution is visible on 0G Mainnet, the receipt bundle lands on 0G Storage, and the risk attestation ties the operation back to a compute-assisted decision trail."
   }
 ];
 
@@ -105,9 +104,9 @@ const riskVerdictLabel = computeEvidence.verdict === "approve" ? "approved" : co
 
 const proofHighlights = [
   {
-    label: "Galileo tx",
+    label: "Mainnet tx",
     value: formatAddress(chainDeployment.executeTxHash, 6),
-    text: "Allowed execution is visible on the testnet explorer.",
+    text: "Allowed execution is visible on the mainnet explorer.",
     href: chainDeployment.links.executeTx
   },
   {
@@ -195,7 +194,7 @@ export default function Home() {
         </div>
         <div className="network-pill" title="Target deployment network">
           <RadioTower size={16} />
-          <span>Galileo Testnet</span>
+          <span>0G Mainnet</span>
         </div>
       </section>
 
@@ -236,7 +235,7 @@ export default function Home() {
                 </a>
                 <a className="ghost-button" href={chainDeployment.links.executeTx} target="_blank" rel="noreferrer">
                   <ExternalLink size={17} />
-                  Open Galileo proof
+                  Open Mainnet proof
                 </a>
               </div>
             </div>
@@ -253,7 +252,7 @@ export default function Home() {
           <article className="spotlight-card spotlight-primary">
             <div className="spotlight-header">
               <span className="spotlight-badge">Live deployment</span>
-              <span className="spotlight-pill">0G Galileo / {chainDeployment.chainId}</span>
+              <span className="spotlight-pill">0G Mainnet / {chainDeployment.chainId}</span>
             </div>
             <h2>{walletProfile.name}</h2>
             <p>Keep AI agents in orbit, not in custody.</p>
@@ -482,14 +481,15 @@ export default function Home() {
           </Panel>
 
           <div className="proof-column">
-            <Panel className="proof-panel" eyebrow="Galileo proof" title="Live Deployment">
+            <Panel className="proof-panel" eyebrow="Mainnet proof" title="Live Deployment">
               <div className="proof-grid">
                 <ProofItem label="Chain" value={`${chainDeployment.network} / ${chainDeployment.chainId}`} href={chainDeployment.explorerUrl} />
+                <ProofItem label="Deployer" value={formatAddress(chainDeployment.deployer, 8)} />
                 <ProofItem label="Factory" value={formatAddress(chainDeployment.factoryAddress, 8)} href={chainDeployment.links.factory} />
                 <ProofItem label="Orbit Wallet" value={formatAddress(chainDeployment.orbitWalletAddress, 8)} href={chainDeployment.links.orbitWallet} />
+                <ProofItem label="Factory Deploy" value={formatAddress(chainDeployment.factoryDeploymentTxHash, 10)} href={chainDeployment.links.factoryDeployment} />
                 <ProofItem label="Allowed Tx" value={formatAddress(chainDeployment.executeTxHash, 10)} href={chainDeployment.links.executeTx} />
                 <ProofItem label="Rejected Sample" value={chainDeployment.rejectedReason} />
-                <ProofItem label="Faucet Tx" value={formatAddress(chainDeployment.faucetTxHash ?? "", 10)} href={chainDeployment.links.faucetTx} />
               </div>
             </Panel>
 
@@ -497,7 +497,7 @@ export default function Home() {
               <div className="evidence-grid">
                 <EvidenceItem label="Storage" value={`${storageEvidence.status} / ${storageEvidence.mode}`} />
                 <EvidenceItem label="Storage Root" value={formatAddress(storageEvidence.rootHash, 10)} />
-                <EvidenceItem label="Storage Tx" value={formatAddress(storageEvidence.txHash ?? "", 10)} href={chainDeployment.links.storageTx} />
+                <EvidenceItem label="Storage Proof" value="Root anchored for audit replay" />
                 <EvidenceItem label="Compute Providers" value={`${computeEvidence.providerCount} discovered`} />
                 <EvidenceItem label="Risk Verdict" value={`${computeEvidence.verdict} / score ${computeEvidence.riskScore}`} />
                 <EvidenceItem label="Attestation Root" value={formatAddress(computeEvidence.attestationRoot, 10)} />
@@ -520,7 +520,7 @@ export default function Home() {
           </div>
         </div>
 
-        <Panel className="integration-panel" eyebrow="0G integration map" title="From Mock to Testnet">
+        <Panel className="integration-panel" eyebrow="0G integration map" title="From Mock to Mainnet">
           <div className="integration-grid">
             <IntegrationItem icon={<ShieldCheck size={18} />} title="0G Chain" text="OrbitWallet, policy updates, execution events, receipt roots." />
             <IntegrationItem icon={<Database size={18} />} title="0G Storage" text="Full receipt bundles, invoices, policy snapshots, agent reasoning." />
